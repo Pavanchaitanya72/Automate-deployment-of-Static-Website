@@ -15,6 +15,27 @@ resource "aws_s3_bucket" "static_website_bucket" {
   }
 }
 
+# S3 Bucket Policy for public read access
+resource "aws_s3_bucket_policy" "static_website_policy" {
+  bucket = aws_s3_bucket.static_website_bucket.id # Reference the bucket created above
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Sid       = "PublicReadGetObject",
+        Effect    = "Allow",
+        Principal = "*", # Allows anonymous (public) access
+        Action    = "s3:GetObject", # Allows reading objects
+        Resource = [
+          aws_s3_bucket.static_website_bucket.arn,
+          "${aws_s3_bucket.static_website_bucket.arn}/*" # Crucial: Allows access to objects within the bucket
+        ]
+      }
+    ]
+  })
+}
+
 resource "aws_s3_bucket_website_configuration" "static_website_config" {
   bucket = aws_s3_bucket.static_website_bucket.id
 

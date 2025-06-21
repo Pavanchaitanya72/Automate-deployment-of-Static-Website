@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo "Starting build..."
+      - echo "No build steps required for static HTML, directly zipping files."
+  post_build:
+    commands:
+      - echo "Build complete. Preparing artifacts for deployment."
+      # No need for a manual zip command here if using base-directory and discard-paths
+
+artifacts:
+  files:
+    - '**/*'             # Include all files and subdirectories
+  base-directory: '.'    # Specify that the current directory is the source of files
+  discard-paths: yes     # Crucial: This tells CodeBuild to discard the leading '.' path from files in the artifact.
+  # The artifact will be created as a zip by CodeBuild automatically when using 'files' and 'base-directory'.
+  # The 'name' field below is optional, but good practice.
+  name: website_artifact # This is the name of the artifact produced (e.g., website_artifact.zip)

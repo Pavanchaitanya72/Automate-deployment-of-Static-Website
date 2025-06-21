@@ -1,5 +1,5 @@
 resource "aws_iam_role" "codepipeline_role" {
-  name = "codepipelineservicerole"
+  name = "aws-codepipeline-servicerole"
 
   assume_role_policy = jsonencode({
     "Version": "2012-10-17",
@@ -70,7 +70,7 @@ resource "aws_iam_role_policy_attachment" "codepipeline_admin_access" {
 }
 
 resource "aws_iam_role" "codebuild_role" {
-  name = "codebuildservicerole"
+  name = "aws-codebuild-servicerole"
 
   assume_role_policy = jsonencode({
     "Version": "2012-10-17",
